@@ -1,0 +1,66 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://ollama:11434"
+      },
+      "models": {
+        "qwen3-coder:30b": {
+          "name": "qwen3-coder:30b",
+          "limit": {
+            "context": 32768,
+            "output": 65536
+          }
+        },
+        "gpt-oss:20b": {
+          "name": "gpt-oss:20b",
+          "limit": {
+            "context": 32768,
+            "output": 65536
+          }
+        },
+        "gpt-oss:20b-ctx128k": {
+          "name": "gpt-oss:20b-ctx128k",
+          "limit": {
+            "context": 131072,
+            "output": 65536
+          }
+        }
+      }
+    }
+  },
+  "mcp": {
+    "kubernetes": {
+      "enabled": true,
+      "type": "remote",
+      "url": "http://mcp-kubernetes:8080/mcp"
+    },
+    "grafana": {
+      "enabled": true,
+      "type": "remote",
+      "url": "http://mcp-grafana:8000/mcp"
+    },
+    "photprism-mmontes": {
+      "enabled": true,
+      "type": "remote",
+      "url": "http://mcp-photoprism-mmontes:9001/mcp"
+    },
+    "photprism-xiaowen": {
+      "enabled": true,
+      "type": "remote",
+      "url": "http://mcp-photoprism-xiaowen:9001/mcp"
+    },
+    "github": {
+      "enabled": true,
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp",
+      "headers": {
+        "Authorization": "Bearer $GITHUB_TOKEN",
+        "X-MCP-Readonly": "true"
+      }
+    }
+  }
+}
