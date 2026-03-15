@@ -1,4 +1,4 @@
-# Base Image: CUDA 13.1 Devel for Blackwell (Compute 12.0) support
+# Base Image: CUDA 13.1 Devel for Blackwell support
 FROM nvidia/cuda:13.1.0-devel-ubuntu24.04
 
 # Build Arguments
@@ -14,12 +14,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TZ=UTC \
     GOPATH=/home/${USERNAME}/go \
     PATH=/home/${USERNAME}/usr/local/go/bin:/home/${USERNAME}/go/bin:/home/${USERNAME}/.local/bin:/home/${USERNAME}/.cargo/bin:/home/${USERNAME}/.npm-global/bin:$PATH \
-    OLLAMA_HOST="http://ollama:11434"
+    OLLAMA_HOST="http://ollama:11434" 
 
 # System Essentials
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl git git-lfs vim tmux jq htop ripgrep build-essential \
     unzip wget ca-certificates sudo libmagic1 rsync \
+    python3-dev libffi-dev libssl-dev gettext-base \
     && rm -rf /var/lib/apt/lists/*
 
 # Create User 'mmontes'
@@ -63,7 +64,6 @@ USER root
 RUN mkdir -p /opt/skeleton && \
     cp -rp /home/${USERNAME}/. /opt/skeleton/ && \
     chown -R ${USER_UID}:${USER_GID} /opt/skeleton
-
 # Final Context
 USER $USERNAME
 EXPOSE 4096
