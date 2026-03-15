@@ -64,6 +64,7 @@ USER root
 RUN mkdir -p /opt/skeleton && \
     cp -rp /home/${USERNAME}/. /opt/skeleton/ && \
     chown -R ${USER_UID}:${USER_GID} /opt/skeleton
+
 # Final Context
 USER $USERNAME
 EXPOSE 4096
