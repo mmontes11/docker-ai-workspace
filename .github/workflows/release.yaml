@@ -45,10 +45,6 @@ jobs:
           push: true
           builder: ${{ steps.buildx.outputs.name }}
           platforms: linux/amd64
-          build-args: |
-            UV_VERSION=0.10.10
-            GOLANG_VERSION=1.26.1
-            OPENCODE_VERSION=1.2.26
           tags: |
             ghcr.io/${{ github.repository_owner }}/ai-workspace:${{ steps.vars.outputs.VERSION }}
             ghcr.io/${{ github.repository_owner }}/ai-workspace:latest
