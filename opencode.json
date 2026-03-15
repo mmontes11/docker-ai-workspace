@@ -15,13 +15,6 @@
             "output": 65536
           }
         },
-        "gpt-oss:20b": {
-          "name": "gpt-oss:20b",
-          "limit": {
-            "context": 32768,
-            "output": 65536
-          }
-        },
         "gpt-oss:20b-ctx128k": {
           "name": "gpt-oss:20b-ctx128k",
           "limit": {
