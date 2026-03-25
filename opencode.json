@@ -79,8 +79,8 @@
       "url": "http://mcp-photoprism-xiaowen:9001/mcp"
     },
 	  "github": {
-     	"type": "remote",
       "enabled": true,
+     	"type": "remote",
 			"url": "https://api.githubcopilot.com/mcp/",
 			"headers": {
         "Authorization": "Bearer {env:GITHUB_TOKEN}",
