@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": false,
-  "model": "llama-qwen35-35b-3q/llama-qwen35-35b-3q",
+  "model": "llama-qwen35-35b-ctx256k/llama-qwen35-35b-ctx256k",
   "small_model": "gpt-oss:20b-ctx128k",
   "permission": {
     "bash": {
@@ -22,7 +22,7 @@
   },
   "agent": {
     "kubernetes": {
-      "model": "llama-qwen35-35b-3q/llama-qwen35-35b-3q",
+      "model": "llama-qwen35-35b-ctx256k/llama-qwen35-35b-ctx256k",
       "temperature": 0.1,
       "description": "Expert SRE focused on diagnosing complex Kubernetes issues: compute, storage, databases, and infrastructure failures.",
       "prompt": "You are a Senior Kubernetes Site Reliability Engineer (SRE). Your expertise lies in the intersection Kubernetes infrastructure and stateful workloads (databases). When troubleshooting, perform a root-cause analysis and make suggestions to resolve the problem.",
@@ -37,7 +37,7 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama",
       "options": {
-        "baseURL": "http://ollama:11434/v1"
+        "baseURL": "http://ollama.ai.svc.cluster.local:11434/v1"
       },
       "models": {
         "qwen3-coder:30b": {
@@ -60,7 +60,7 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "Llama.cpp",
       "options": {
-        "baseURL": "http://llama-qwen35-35b:8080/v1"
+        "baseURL": "http://llama-qwen35-35b.ai.svc.cluster.local:8080/v1"
       },
       "models": {
         "qwen35-35b": {
@@ -72,15 +72,15 @@
         }
       }
     },
-    "llama-qwen35-35b-3q": {
+    "llama-qwen35-35b-ctx256k": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Llama.cpp",
       "options": {
-        "baseURL": "http://llama-qwen35-35b-q3:8080/v1"
+        "baseURL": "http://llama-qwen35-35b-ctx256k.ai.svc.cluster.local:8080/v1"
       },
       "models": {
-        "qwen35-35b-3q": {
-          "name": "qwen35-35b-3q",
+        "qwen35-35b-ctx256k": {
+          "name": "qwen35:35b-ctx256k",
           "limit": {
             "context": 262144,
             "output": 65536
@@ -90,34 +90,33 @@
     }
   },
   "mcp": {
-    "kubernetes": {
+    "github": {
       "enabled": true,
       "type": "remote",
-      "url": "http://mcp-kubernetes:8080/mcp"
+      "url": "http://mcp-github.ai.svc.cluster.local:8080/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:GITHUB_TOKEN}"
+      }
     },
     "grafana": {
       "enabled": true,
       "type": "remote",
-      "url": "http://mcp-grafana:8000/mcp"
+      "url": "http://mcp-grafana.ai.svc.cluster.local:8000/mcp"
+    },
+    "kubernetes": {
+      "enabled": true,
+      "type": "remote",
+      "url": "http://mcp-kubernetes.ai.svc.cluster.local:8080/mcp"
     },
     "photprism-mmontes": {
       "enabled": true,
       "type": "remote",
-      "url": "http://mcp-photoprism-mmontes:9001/mcp"
+      "url": "http://mcp-photoprism-mmontes.ai.svc.cluster.local:9001/mcp"
     },
     "photprism-xiaowen": {
       "enabled": true,
       "type": "remote",
-      "url": "http://mcp-photoprism-xiaowen:9001/mcp"
-    },
-	  "github": {
-      "enabled": true,
-     	"type": "remote",
-			"url": "https://api.githubcopilot.com/mcp/",
-			"headers": {
-        "Authorization": "Bearer {env:GITHUB_TOKEN}",
-        "X-MCP-Readonly": "true"
-      }
+      "url": "http://mcp-photoprism-xiaowen.ai.svc.cluster.local:9001/mcp"
     }
   }
 }
