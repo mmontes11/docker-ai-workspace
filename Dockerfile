@@ -16,7 +16,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Install System Essentials
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl git git-lfs openssh-client \
+    curl git git-lfs gh openssh-client \
     vim tmux jq htop ripgrep build-essential \
     unzip wget ca-certificates sudo libmagic1 rsync \
     python3-dev libffi-dev libssl-dev gettext-base \
@@ -55,18 +55,12 @@ RUN curl -LsSf https://astral.sh/uv/${UV_VERSION}/install.sh | sh
 
 # Install OpenCode
 RUN curl -fsSL https://opencode.ai/install | bash -s -- --version ${OPENCODE_VERSION}
-RUN mkdir -p /home/mmontes/.config/opencode
+RUN mkdir -p /home/mmontes/.config/opencode/skills /home/mmontes/scripts
 COPY --chown=1111:1111 opencode.json /home/mmontes/.config/opencode/opencode.json
+COPY --chown=1111:1111 scripts/ /home/mmontes/scripts/
+RUN chmod +x /home/mmontes/scripts/*.sh && \
+    /bin/bash /home/mmontes/scripts/skills.sh
 
-# Create the Persistence Template for initContainer sync
-USER root
-RUN mkdir -p /opt/template && \
-    cp -rp /home/mmontes/. /opt/template/ && \
-    chown -R 1111:1111 /opt/template
-
-# Return to user and finalize runtime metadata
-USER mmontes
-WORKDIR /home/mmontes
 EXPOSE 4096
 
 # Absolute path for Entrypoint to bypass PATH resolution issues entirely
