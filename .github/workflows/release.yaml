@@ -2,6 +2,8 @@ name: Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - "[0-9]+.[0-9]+.[0-9]+"
 
@@ -35,7 +37,12 @@ jobs:
 
       - name: Get Image Version
         id: vars
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Publish Docker image
         uses: docker/build-push-action@v6
@@ -47,6 +54,7 @@ jobs:
           platforms: linux/amd64
           tags: |
             ghcr.io/${{ github.repository_owner }}/ai-workspace:${{ steps.vars.outputs.VERSION }}
+            ghcr.io/${{ github.repository_owner }}/ai-workspace:${{ github.sha }}
             ghcr.io/${{ github.repository_owner }}/ai-workspace:latest
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
