@@ -1,6 +1,6 @@
-# docker-ai-workspace
+# docker-opencode
 
-Docker image equipped with AI tools to be used as a [Pod of my homelab](https://github.com/mmontes11/k8s-ai/tree/main/infrastructure/workspace)
+Docker image equipped with AI tools to be used as a Pod of my homelab [infrastructure/workspace](https://github.com/mmontes11/k8s-ai/tree/main/infrastructure/workspace)
 
 ## Features
 
