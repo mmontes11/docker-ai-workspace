@@ -72,5 +72,4 @@ WORKDIR /home/mmontes
 
 EXPOSE 4096
 
-# Absolute path for Entrypoint to bypass PATH resolution issues entirely
 ENTRYPOINT ["opencode", "web", "--port", "4096", "--hostname", "0.0.0.0", "--cors", "opencode.mmontes-internal.duckdns.org"]
