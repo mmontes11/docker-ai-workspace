@@ -4,7 +4,7 @@ FROM nvidia/cuda:13.1.0-devel-ubuntu24.04
 # Build Arguments for version control
 ARG UV_VERSION=0.11.11
 ARG GOLANG_VERSION=1.26.1
-ARG OPENCODE_VERSION=1.4.3
+ARG OPENCODE_VERSION=1.3.13
 
 # Environment
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -59,6 +59,16 @@ RUN mkdir -p /home/mmontes/.config/opencode/skills /home/mmontes/scripts
 COPY --chown=1111:1111 scripts/ /home/mmontes/scripts/
 RUN chmod +x /home/mmontes/scripts/*.sh && \
     /bin/bash /home/mmontes/scripts/skills.sh
+
+# Create the Persistence Template for initContainer sync
+USER root
+RUN mkdir -p /opt/template && \
+    cp -rp /home/mmontes/. /opt/template/ && \
+    chown -R 1111:1111 /opt/template
+
+# Return to user and finalize runtime metadata
+USER mmontes
+WORKDIR /home/mmontes
 
 EXPOSE 4096
 
