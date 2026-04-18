@@ -22,18 +22,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev libffi-dev libssl-dev gettext-base \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Docker
+# Install Docker client
 RUN install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
     chmod a+r /etc/apt/keyrings/docker.asc && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" > /etc/apt/sources.list.d/docker.list && \
-    apt-get update && apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
+    apt-get update && apt-get install -y --no-install-recommends docker-ce-cli docker-compose-plugin && \
     rm -rf /var/lib/apt/lists/*
 
 # Create User and configure sudo
 RUN groupadd --gid 1111 mmontes \
     && useradd --uid 1111 --gid 1111 -m -s /bin/bash mmontes \
-    && usermod -aG docker mmontes \
     && echo "mmontes ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/mmontes \
     && chmod 0440 /etc/sudoers.d/mmontes
 
@@ -45,7 +44,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 USER mmontes
 WORKDIR /home/mmontes
 
-# Code directory
+# Home directories
 RUN mkdir -p /home/mmontes/code /home/mmontes/scripts /home/mmontes/.config/opencode/skills 
 
 # Install Go
