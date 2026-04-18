@@ -45,6 +45,9 @@ RUN mkdir -p ~/usr/local && \
     tar -C ~/usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
     rm go${GOLANG_VERSION}.linux-amd64.tar.gz
 
+# Install k8s-tooling
+RUN curl -sfL https://raw.githubusercontent.com/mmontes11/k8s-tooling/main/kubernetes.sh | sudo bash -s -
+
 # Install Node
 RUN mkdir -p ~/.npm-global && \
     npm config set prefix '~/.npm-global' && \
