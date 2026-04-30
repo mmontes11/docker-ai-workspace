@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": ["OPENCODE_VERSION=(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "anomalyco/opencode",
+      "packageNameTemplate": "anomalyco/opencode"
+    }
+  ]
+}
