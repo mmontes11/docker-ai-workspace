@@ -4,7 +4,8 @@ FROM nvidia/cuda:13.1.0-devel-ubuntu24.04
 # Build Arguments for version control
 ARG UV_VERSION=0.11.11
 ARG GOLANG_VERSION=1.26.1
-ARG OPENCODE_VERSION=1.14.31
+ARG OPENCODE_VERSION=1.14.24
+ARG K8S_TOOLING_VERSION=0.18.0
 
 # Environment
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -54,7 +55,7 @@ RUN mkdir -p ~/usr/local && \
     rm go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # Install k8s-tooling
-RUN curl -sfL https://raw.githubusercontent.com/mmontes11/k8s-tooling/main/kubernetes.sh | sudo bash -s -
+RUN curl -sfL https://raw.githubusercontent.com/mmontes11/k8s-tooling/v${K8S_TOOLING_VERSION}/kubernetes.sh | sudo bash -s -
 
 # Install Node
 RUN mkdir -p ~/.npm-global && \
