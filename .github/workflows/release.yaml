@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-    tags:
-      - "[0-9]+.[0-9]+.[0-9]+"
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 jobs:
@@ -35,14 +33,19 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get Image Version
-        id: vars
+      - name: Get OpenCode Version
+        id: version
         run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-          else
-            echo "VERSION=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
-          fi
+          VERSION=$(grep -oP 'ARG OPENCODE_VERSION=\K[0-9]+\.[0-9]+\.[0-9]+' Dockerfile)
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Extracted version: ${VERSION}"
+
+      - name: Create tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f "v${{ steps.version.outputs.VERSION }}"
+          git push origin "v${{ steps.version.outputs.VERSION }}" --force
 
       - name: Publish Docker image
         uses: docker/build-push-action@v6
@@ -53,10 +56,19 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           platforms: linux/amd64
           tags: |
-            ghcr.io/${{ github.repository_owner }}/opencode:${{ steps.vars.outputs.VERSION }}
-            ghcr.io/${{ github.repository_owner }}/opencode:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/opencode:v${{ steps.version.outputs.VERSION }}
             ghcr.io/${{ github.repository_owner }}/opencode:latest
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.revision=${{ github.sha }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: v${{ steps.version.outputs.VERSION }}
+          generate_release_notes: true
+          replace_existing_release: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
