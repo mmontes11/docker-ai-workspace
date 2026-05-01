@@ -11,6 +11,14 @@
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "anomalyco/opencode",
       "packageNameTemplate": "anomalyco/opencode"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": ["K8S_TOOLING_VERSION=(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "mmontes11/k8s-tooling",
+      "packageNameTemplate": "mmontes11/k8s-tooling"
     }
   ],
   "packageRules": [
@@ -20,7 +28,7 @@
     },
     {
       "matchDatasources": ["github-releases"],
-      "matchPackageNames": ["anomalyco/opencode"],
+      "matchPackageNames": ["anomalyco/opencode", "mmontes11/k8s-tooling"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     }
