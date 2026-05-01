@@ -7,7 +7,7 @@ Docker image equipped with AI tools, such as opencode, to be used as a [Pod of m
 - **CUDA 13.1**: Latest NVIDIA CUDA toolkit with Blackwell support
 - **AI Models**: Configured with multiple LLM providers via Ollama and Llama.cpp
 - **MCP Integration**: GitHub, Grafana, Kubernetes, and PhotoPrism MCP servers
-- **Development Tools**: Go, Node.js, Python, and essential CLI utilities
+- **Development Tools**: Go, Node.js, Python, essential CLI utilities, and [k8s-tooling](https://github.com/mmontes11/k8s-tooling)
 
 ## Installation
 
